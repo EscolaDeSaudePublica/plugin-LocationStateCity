@@ -53,4 +53,33 @@ $(document).ready(function () {
             );
     }
     getCity();
+
+
+     // QUANDO SALVA O ESTADO O ARRAY COM OS MUNICIPIOS É PREENCHIDO
+    /**
+     * NOTA: ADICIONADO O SELECT2 PARA FACILITAR NA BUSCA DA CIDADE
+     */
+     $('#En_Estado').on('hidden', function() {
+        var estado = $('#En_Estado').editable('getValue', true);
+        var totosDistritos = MapasCulturais['ibge'][estado];
+        var distrito = [];
+        $.each(totosDistritos, function(indexInArray, valueOfElement) {
+            distrito.push(valueOfElement);
+        });
+        var sourceCity = [];
+        // REMOVENDO O ELEMENTO ATUAL
+        $('#En_Municipio').remove();
+        // CRIANDO  UM ELEMENTO PARA ARRAY COM AS CIDADES
+        $("#divMunicipio").append('<span class="js-editable" id="En_Municipio" data-original-title="Municipio" data-emptytext="Insira o Município" data-type="select2" data-showButtons="bottom"></span>');
+        $.each(distrito[3], function(indexInArray, valueOfElement) {
+            // POPULANDO O ARRAY
+            sourceCity.push({ 'id': valueOfElement.nome, 'text': valueOfElement.nome });
+        });
+        //INSTANCIANDO O X-EDITABLE COM SELECT2
+        $('#En_Municipio').editable({
+            mode: 'inline',
+            source: sourceCity,
+            placeholder: 'insira um município'
+        });
+    });
 });
